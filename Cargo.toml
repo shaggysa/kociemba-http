@@ -4,7 +4,7 @@ license = "GPL-3.0-or-later"
 readme = "README.md"
 description = "A http wrapper for the kociemba crate"
 repository = "https://github.com/shaggysa/kociemba-http"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 
 [dependencies]
