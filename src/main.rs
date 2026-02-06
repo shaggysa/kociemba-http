@@ -1,3 +1,4 @@
+use std::env;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::{routing::get, Router, Json};
@@ -9,6 +10,8 @@ fn app() -> Router {
 
 #[tokio::main]
 async fn main() {
+    dotenvy::dotenv().ok();
+
     println!("Running first solve.");
     println!("This may take a while if you haven't generated prune tables yet...");
     tokio::task::spawn_blocking(move || {
@@ -20,9 +23,11 @@ async fn main() {
 
     let app = app();
 
-    println!("Starting server on port 3000...");
+    let addr = env::var("SITE_ADDR").unwrap_or("0.0.0.0:3000".to_string());
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    println!("Starting server on {}", addr);
+
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 
